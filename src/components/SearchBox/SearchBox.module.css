@@ -1,0 +1,12 @@
+.wraper {
+    margin-top: 20px;
+}
+
+.field {
+    display: flex;
+    border-radius: 4px;
+    background-color: transparent;
+    color: inherit;
+    width: 420px;
+    border: 2px solid;
+}
