@@ -7,11 +7,12 @@ import { useDispatch ,useSelector} from 'react-redux'
 import { fetchContacts } from './redux/contactsOps'
 import Loader from './components/Loader/Loader'
 import Error from './components/Error/Error'
+import { selectLoading,selectError } from './redux/contactsSlice'
 
 
 function App() {
-  const loading = useSelector((state) => state.contacts.loading);
-  const error = useSelector((state) => state.contacts.error);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
 const dispatch= useDispatch();
 useEffect(()=>{
   dispatch(fetchContacts())

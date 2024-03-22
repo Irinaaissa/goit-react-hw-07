@@ -19,10 +19,13 @@ return response.data;
 } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
 }
-    
-        
-        
-    
-    
-    
+});
+export const addContact = createAsyncThunk("contacts/addContact",
+async (nowContact,thunkAPI) => {
+try {
+    const response = await axios.post(`/contacts`,nowContact); 
+return response.data;
+} catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+}
 });

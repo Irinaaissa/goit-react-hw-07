@@ -5,37 +5,18 @@ import { IoPersonSharp } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from '../../redux/contactsOps';
 
-export default function Contact({ contact}) {
+export default function Contact({ item:{name, number,id}}) {
   const dispatch = useDispatch();
  
-  // const {  name, number } = contact;
-
-  // function handleClick() {
-    // dispatch(deleteContact(id));
-  // }
-
   return (
     <div className={css.contactCard}>
-    <ul className={css.contactList}>
-    <li className={css.contactItem}>
-      <div>
-        <ContactInfo icon={<IoPersonSharp />}>{}</ContactInfo>
-        <ContactInfo icon={<FaPhone />}>{}</ContactInfo>
-      </div>
-    </li>
-    </ul>
-    <button className={css.btn} onClick={() => dispatch(deleteContact(contact.id))}>
+    <div>
+      <p className={css.info}><span className={css.iconWrapper}><IoPersonSharp  /></span>{name} </p>
+      <p className={css.info}><span className={css.iconWrapper}><FaPhone /></span> {number}</p>
+    </div>
+    <button className={css.btn} onClick={() => dispatch(deleteContact(id))}>
   Delete
 </button>
     </div>
-  );
-}
-
-function ContactInfo({ icon, children }) {
-  return (
-    <p className={css.info}>
-      <span className={css.iconWrapper}>{icon}</span>
-      <span>{children}</span>
-    </p>
   );
 }

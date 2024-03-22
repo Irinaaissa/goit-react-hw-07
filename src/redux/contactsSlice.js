@@ -1,10 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-// import { nanoid } from "nanoid";
-import { fetchContacts, deleteContact } from "./contactsOps";
+import { createSlice,createSelector } from "@reduxjs/toolkit";
+import { fetchContacts, deleteContact,addContact } from "./contactsOps";
+import { selectNameFilter } from "./filtersSlice";
 
 const contactsSlice = createSlice({
   name: "contacts",
-  initialState: { items: [], loading: false, error: null },
+  initialState: {
+     items: [], 
+     loading: false,
+      error: null },
   extraReducers: (builder) =>
     builder
       .addCase(fetchContacts.pending, (state) => {
@@ -35,31 +38,28 @@ const contactsSlice = createSlice({
         state.error = true;
         state.loading = false;
       })
-      ,
-  reducers: {
-    addContact: {
-      reducer(state, action) {
+      .addCase(addContact .pending, (state) => {
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.loading = false;
         state.items.push(action.payload);
-      },
-      prepare({ name, number }) {
-        return {
-          payload: {
-            // id: nanoid(),
-            name,
-            number,
-          },
-        };
-      },
-    },
-    // deleteContact(state, action) {
-      // const index = state.items.findIndex(
-        // (contact) => contact.id === action.payload
-      // );
-      // state.items.splice(index, 1);
-    // },
-  },
+      })
+      .addCase(addContact.rejected, (state, action) => {
+        console.log(action);
+        state.error = true;
+        state.loading = false;
+      })
+      ,
 });
 
 export const selectContacts = (state) => state.contacts.items;
-export const { addContact,  } = contactsSlice.actions;
+export const selectLoading = (state) => state.contacts.loading;
+export const selectError = (state) => state.contacts.error;
 export const contactsReducer = contactsSlice.reducer;
+
+export const selectFilteredContacts = createSelector([selectContacts,selectNameFilter],
+  (contacts,nameFilter)=>{
+    return contacts.filter(contact =>contact.name.toLowerCase().includes(nameFilter.toLowerCase()))
+  });
